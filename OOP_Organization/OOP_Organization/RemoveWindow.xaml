@@ -1,0 +1,42 @@
+﻿<Window x:Class="OOP_Organization.RemoveWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OOP_Organization"
+        mc:Ignorable="d"
+        Title="RemoveWindow" Height="300" Width="800" MinHeight="300" MinWidth="800">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="What do you want to do with employees in this department?" FontSize="24" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+
+        <TextBlock Text="Fire all Employees?" FontSize="20" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" />
+
+
+        <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextAlignment="Center" Grid.RowSpan="2" >Select parent department :</TextBlock>
+        <ComboBox x:Name="cbAddNewDepartmentForEmployees" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding DepartmentName}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Button x:Name="btnFireAll"  Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Stretch"  MinWidth="70" MinHeight="25" Cursor="Hand" Margin="10" Click="BtnFireAll_Click" >
+            <TextBlock Text="Fire" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
+        </Button>
+
+        <Button x:Name="btnMoveToAnotherDepartment" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" MinWidth="70" MinHeight="25" Cursor="Hand" Margin="10" Click="BtnMoveToAnotherDepartment_Click">
+            <TextBlock Text="Move" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
+        </Button>
+    </Grid>
+</Window>

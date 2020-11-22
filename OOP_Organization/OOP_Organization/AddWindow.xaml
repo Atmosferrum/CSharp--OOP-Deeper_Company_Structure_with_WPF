@@ -1,0 +1,42 @@
+﻿<Window x:Class="OOP_Organization.AddWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OOP_Organization"
+        mc:Ignorable="d"
+        Title="AddWindow" Height="300" Width="700" MinHeight="300" MinWidth="400">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="25*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35*"/>
+            <RowDefinition Height="65*"/>
+            <RowDefinition Height="75*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextAlignment="Center">Add employee name :</TextBlock>
+        <TextBox x:Name="tbAddName" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,25,10,22" Height="18"/>
+        <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextAlignment="Center">Add employee last name :</TextBlock>
+        <TextBox x:Name="tbAddLastName" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,25,10,22" Height="18"/>
+        <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextAlignment="Center">Add employee age :</TextBlock>
+        <TextBox x:Name="tbAddAge" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,25,10,22" Height="18"/>
+        <TextBlock Grid.Column="3" Grid.Row="1" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextAlignment="Center">Select employee department :</TextBlock>
+        <ComboBox x:Name="cbAddEmployeeDepartment" Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,20,10,20" Height="22">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding DepartmentName}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Button x:Name="btnAddEmployee"  Grid.Column="3" Grid.Row="2" HorizontalAlignment="Stretch" Margin="10" MinWidth="70" MinHeight="25" Click="BtnAddEmployee" Cursor="Hand">
+            <TextBlock Text="Add Employee" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
+        </Button>
+        <Button x:Name="btnEditEmployee" Grid.Column="3" Grid.Row="2" HorizontalAlignment="Stretch" Margin="10" MinWidth="70" MinHeight="25" Cursor="Hand" Click="BtnEditEmployee">
+            <TextBlock Text="Edit Employee" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
+        </Button>
+    </Grid>
+</Window>
