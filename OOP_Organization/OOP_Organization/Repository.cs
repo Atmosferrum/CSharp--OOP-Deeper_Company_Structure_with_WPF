@@ -35,7 +35,9 @@ namespace OOP_Organization
             EmployeesDB = new List<Employee>(); //Set new Employees Database
             DepartmentsDb = new List<Department>(); //Set new Departments Database
 
-            AutoDesiarilizationXML(path);            
+            AutoDesiarilizationXML(path);
+
+            SetSalaryToHeads();
         }
 
         #endregion Constructor;
@@ -93,7 +95,7 @@ namespace OOP_Organization
                 foreach (XmlNode x in xNode.ChildNodes)
                     XMLNodesDesiarilization(x);
 
-            DepartmentsDb.Sort();
+            DepartmentsDb.Sort();            
         }
 
         /// <summary>
@@ -125,6 +127,32 @@ namespace OOP_Organization
             emply.Repository = this;
 
             EmployeesDB.Add(emply);
+        }
+
+        /// <summary>
+        /// Method to SET Salary to HeadOfDepartment and HeadOfOrganization
+        /// </summary>
+        void SetSalaryToHeads()
+        {
+            foreach (Employee head in EmployeesDB)
+            {
+                if (head is HeadOfDepartment)
+                {
+                    foreach (Employee e in EmployeesDB)
+                        if (e.Department == head.Department) head.Salary += (int)(e.Salary * 0.13f);
+
+                    if (head.Salary < 1300) head.Salary = 1300;
+                }    
+            }
+
+            foreach(Employee head in EmployeesDB)
+            {
+                if (head is HeadOfOrganization)
+                {
+                    foreach (Employee e in EmployeesDB)
+                        head.Salary += (int)(e.Salary * 0.1f);
+                }
+            }           
         }
 
         /// <summary>

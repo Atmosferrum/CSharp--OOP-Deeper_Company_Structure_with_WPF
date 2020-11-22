@@ -19,6 +19,8 @@
                     <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}" Width="Auto"/>
                     <GridViewColumn Header="Age" DisplayMemberBinding="{Binding Age}" Width="Auto"/>
                     <GridViewColumn Header="Department" DisplayMemberBinding="{Binding Department}" Width="Auto"/>
+                    <GridViewColumn Header="Position" DisplayMemberBinding="{Binding Position}" Width="Auto"/>
+                    <GridViewColumn Header="Salary" DisplayMemberBinding="{Binding Salary,StringFormat={}{0} $}" Width="Auto"/>
                 </GridView>
             </ListView.View>
         </ListView>

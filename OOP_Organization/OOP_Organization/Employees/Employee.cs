@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace OOP_Organization
 {
@@ -16,6 +17,7 @@ namespace OOP_Organization
         protected string department; //Department of the Employee
         protected float salary; //Salary of the Employee
         protected int daysWorked; //How many days Employee worked at the Company
+        protected string position;
         protected Repository repository; //Repository with all Company DATA
 
         #endregion Fields
@@ -36,12 +38,13 @@ namespace OOP_Organization
                         string Department,
                         int DaysWorked)
         {
-            this.employeeID = Worker.NextID();
+            this.employeeID = Employee.NextID();
             this.employeeName = EmployeeName;
             this.lastName = LastName;
             this.age = Age;
             this.department = Department;
             this.daysWorked = DaysWorked;
+            this.position = this.MyPosition();
         }
 
         #endregion Constuctor        
@@ -52,6 +55,13 @@ namespace OOP_Organization
         {
             staticID++;
             return staticID;
+        }
+
+        private string MyPosition()
+        {
+            string pos;
+            pos = Regex.Replace(this.GetType().Name, "([a-z])([A-Z])", "$1 $2");
+            return pos;
         }
 
         public int EmployeeID //Number Property
@@ -89,10 +99,15 @@ namespace OOP_Organization
             set { this.salary = value; }
         }
 
-        public int DaysWorked //Days Worked Property
+        public virtual int DaysWorked //Days Worked Property
         {
             get { return this.daysWorked; }
             set { this.daysWorked = value; }
+        }
+
+        public string Position //Days Worked Property
+        {
+            get { return this.position; }
         }
 
         public Repository Repository //Repository Property

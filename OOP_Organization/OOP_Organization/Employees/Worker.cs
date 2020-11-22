@@ -23,10 +23,7 @@
                Age,
                Department,
                DaysWorked)
-        {
-            Salary = 12 * 8 * 30;
-
-        }
+        { }
 
         /// <summary>
         /// Default Constructor
@@ -34,5 +31,11 @@
         public Worker() : this("", "", 0, "", 0) { }
 
         #endregion Constructor
+
+        public override int DaysWorked //Days Worked Property
+        {
+            get { return this.daysWorked; }
+            set { this.daysWorked = value; Salary = 12 * 8 * (daysWorked / 3);  }
+        }
     }
 }
