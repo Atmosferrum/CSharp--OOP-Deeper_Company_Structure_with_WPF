@@ -35,7 +35,13 @@
         public override int DaysWorked //Days Worked Property
         {
             get { return this.daysWorked; }
-            set { this.daysWorked = value; Salary = 12 * 8 * (daysWorked / 3);  }
+            set { this.daysWorked = value;
+                int rate = 4;
+                int hours = 12;
+                int shifts = 15;
+                int factor = (int)(daysWorked / 4);
+                Salary = rate * hours * shifts + factor;
+            }
         }
     }
 }

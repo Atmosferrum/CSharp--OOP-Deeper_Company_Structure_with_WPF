@@ -8,10 +8,9 @@
         Title="AddWindow" Height="300" Width="700" MinHeight="300" MinWidth="400">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="25*"/>
-            <ColumnDefinition Width="25*"/>
-            <ColumnDefinition Width="25*"/>
-            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="35*"/>
@@ -19,23 +18,32 @@
             <RowDefinition Height="75*"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextAlignment="Center">Add employee name :</TextBlock>
-        <TextBox x:Name="tbAddName" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,25,10,22" Height="18"/>
+        <TextBox x:Name="tbAddName" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10" Height="18"/>
         <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextAlignment="Center">Add employee last name :</TextBlock>
-        <TextBox x:Name="tbAddLastName" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,25,10,22" Height="18"/>
+        <TextBox x:Name="tbAddLastName" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10" Height="18"/>
         <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextAlignment="Center">Add employee age :</TextBlock>
-        <TextBox x:Name="tbAddAge" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,25,10,22" Height="18"/>
-        <TextBlock Grid.Column="3" Grid.Row="1" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextAlignment="Center">Select employee department :</TextBlock>
-        <ComboBox x:Name="cbAddEmployeeDepartment" Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,20,10,20" Height="22">
+        <TextBox x:Name="tbAddAge" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"  Margin="10" Height="18"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextAlignment="Center">Select employee department :</TextBlock>
+        <ComboBox x:Name="cbAddEmployeeDepartment" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10" Height="22" SelectionChanged="CbAddEmployeeDepartment_SelectionChanged">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding DepartmentName}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <Button x:Name="btnAddEmployee"  Grid.Column="3" Grid.Row="2" HorizontalAlignment="Stretch" Margin="10" MinWidth="70" MinHeight="25" Click="BtnAddEmployee" Cursor="Hand">
+        <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextAlignment="Center">Select employee position :</TextBlock>
+        <ComboBox x:Name="cbAddEmployeePosition" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10" Height="22">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Button x:Name="btnAddEmployee"  Grid.Column="2" Grid.Row="2" HorizontalAlignment="Stretch" MinWidth="70" MinHeight="25" Margin="10 20" Click="BtnAddEmployee" Cursor="Hand">
             <TextBlock Text="Add Employee" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
         </Button>
-        <Button x:Name="btnEditEmployee" Grid.Column="3" Grid.Row="2" HorizontalAlignment="Stretch" Margin="10" MinWidth="70" MinHeight="25" Cursor="Hand" Click="BtnEditEmployee">
+        <Button x:Name="btnEditEmployee" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Stretch" MinWidth="70" MinHeight="25" Margin="10 20" Cursor="Hand" Click="BtnEditEmployee">
             <TextBlock Text="Edit Employee" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
         </Button>
     </Grid>

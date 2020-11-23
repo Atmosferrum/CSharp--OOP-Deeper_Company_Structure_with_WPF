@@ -95,7 +95,7 @@ namespace OOP_Organization
                 foreach (XmlNode x in xNode.ChildNodes)
                     XMLNodesDesiarilization(x);
 
-            DepartmentsDb.Sort();            
+            DepartmentsDb.Sort();
         }
 
         /// <summary>
@@ -132,27 +132,31 @@ namespace OOP_Organization
         /// <summary>
         /// Method to SET Salary to HeadOfDepartment and HeadOfOrganization
         /// </summary>
-        void SetSalaryToHeads()
+        public void SetSalaryToHeads()
         {
             foreach (Employee head in EmployeesDB)
             {
                 if (head is HeadOfDepartment)
                 {
+                    head.Salary = 0;
+
                     foreach (Employee e in EmployeesDB)
-                        if (e.Department == head.Department) head.Salary += (int)(e.Salary * 0.13f);
+                        if (e.Department == head.Department && !(e is HeadOfOrganization) && e != head) head.Salary += (int)(e.Salary * 0.5f);
 
                     if (head.Salary < 1300) head.Salary = 1300;
-                }    
+                }
             }
 
-            foreach(Employee head in EmployeesDB)
+            foreach (Employee head in EmployeesDB)
             {
                 if (head is HeadOfOrganization)
                 {
+                    head.Salary = 0;
+
                     foreach (Employee e in EmployeesDB)
                         head.Salary += (int)(e.Salary * 0.1f);
                 }
-            }           
+            }
         }
 
         /// <summary>
@@ -162,9 +166,19 @@ namespace OOP_Organization
         /// <param name="LastName">New Employee Last Name</param>
         /// <param name="Age">New Employee Age</param>
         /// <param name="Department">New Employee Department</param>
-        public void AddEmployee(string Name, string LastName, int Age, string Department)
+        public void AddEmployee(string Name, string LastName, int Age, string Department, int employeeClass)
         {
-            Employee employee = new Employee(Name, LastName, Age, Department, 0);
+            Employee employee;
+
+            switch (employeeClass)
+            {
+                case 0: employee = new HeadOfOrganization(Name, LastName, Age, Department, 0); break;
+                case 1: employee = new HeadOfDepartment(Name, LastName, Age, Department, 0); break;
+                case 2: employee = new Worker(Name, LastName, Age, Department, 0); break;
+                case 3: employee = new Intern(Name, LastName, Age, Department, 0); break;                
+                default: employee = new Employee(Name, LastName, Age, Department, 0); break;
+            }
+
             EmployeesDB.Add(employee);
         }
 
@@ -284,7 +298,7 @@ namespace OOP_Organization
         /// <param name="Age">Age to get</param>
         /// <param name="Department">Department to get</param>
         /// <returns></returns>
-        public Employee this[string Name, string LastName, int Age, string Department]
+        public Employee this[string Name, string LastName, int Age, string Department, int EmployeeClass]
         {
             get
             {

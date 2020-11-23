@@ -110,6 +110,8 @@ namespace OOP_Organization
                 lvEmployees.ItemsSource = repository.EmployeesDB.Where(GetAllEmployeesOfSelectedDepartment);
             else
                 lvEmployees.ItemsSource = null;
+
+            repository.SetSalaryToHeads();
         }
 
         private bool GetAllEmployeesOfSelectedDepartment(Employee arg)
@@ -121,6 +123,8 @@ namespace OOP_Organization
         {
             cbDepartments.ItemsSource = repository.DepartmentsDb;
             cbDepartments.Items.Refresh();
+
+            repository.SetSalaryToHeads();
         }                
 
         #endregion Methods
