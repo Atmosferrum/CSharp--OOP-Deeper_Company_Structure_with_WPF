@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace OOP_Organization
 {
@@ -26,6 +27,9 @@ namespace OOP_Organization
             repository = new Repository(path, this);
 
             LoadDpartmentsToComboBox();
+
+            LoadDepartmentsToTreeView();
+
         }
 
         #endregion Constructor
@@ -94,11 +98,24 @@ namespace OOP_Organization
             LoadEmployeesToListView();
         }
 
+        private void SortBySalary(object sender, RoutedEventArgs e)
+        {
+            repository.EmployeesDB.Sort(new Employee.SortBySalary());
+            LoadEmployeesToListView();
+        }
+
+
+        private void SortByPosition(object sender, RoutedEventArgs e)
+        {
+            repository.EmployeesDB.Sort(new Employee.SortByPosition());
+            LoadEmployeesToListView();
+        }
+
         private void SortByAge(object sender, RoutedEventArgs e)
         {
             repository.EmployeesDB.Sort();
             LoadEmployeesToListView();
-        }
+        }        
 
         #endregion Elements' Methods
 
@@ -125,8 +142,123 @@ namespace OOP_Organization
             cbDepartments.Items.Refresh();
 
             repository.SetSalaryToHeads();
-        }                
+        }
+
+        public void LoadDepartmentsToTreeView()
+        {
+            TreeViewItem item = new TreeViewItem
+            {
+                Header = $"Company"
+            };
+
+            tvDepartments.Items.Add(item);
+
+            TreeViewItem item2 = new TreeViewItem
+            {
+                Header = $"Bureue"
+            };            
+
+            TreeViewItem item3 = new TreeViewItem
+            {
+                Header = $"Division"
+            };
+
+            item.Items.Add(item2);
+            item.Items.Add(item3);
+
+            TreeViewItem item4 = new TreeViewItem
+            {
+                Header = $"Division"
+            };
+
+            TreeViewItem item5 = new TreeViewItem
+            {
+                Header = $"Division"
+            };
+            TreeViewItem item8 = new TreeViewItem
+            {
+                Header = $"Division"
+            };
+            TreeViewItem item9 = new TreeViewItem
+            {
+                Header = $"Division"
+            };
+
+            item2.Items.Add(item4);
+            item2.Items.Add(item5);
+            item2.Items.Add(item8);
+            item2.Items.Add(item9);
+
+            TreeViewItem item6 = new TreeViewItem
+            {
+                Header = $"Division"
+            };
+
+            TreeViewItem item7 = new TreeViewItem
+            {
+                Header = $"Division"
+            };
+            TreeViewItem item10 = new TreeViewItem
+            {
+                Header = $"Division"
+            };
+            TreeViewItem item11 = new TreeViewItem
+            {
+                Header = $"Division"
+            };
+            TreeViewItem item12 = new TreeViewItem
+            {
+                Header = $"Division"
+            };
+
+            item3.Items.Add(item6);
+            item3.Items.Add(item7);
+            item3.Items.Add(item10);
+            item3.Items.Add(item11);
+            item3.Items.Add(item12);
+
+
+
+            //foreach (Department dept in repository.DepartmentsDb)
+            //{
+            //    TreeViewItem item = new TreeViewItem();
+
+            //    if(dept.ParentDepartment == "")
+            //    {
+            //        item = new TreeViewItem
+            //        {
+            //            Header = $"{dept.DepartmentName}",
+            //            HorizontalAlignment = HorizontalAlignment.Left,
+            //            FontSize = 16
+            //        };
+            //    }
+            //    else if (dept.ParentDepartment != "")
+            //        LoadDepartmentsToTreeView(item);
+
+            //    tvDepartments.Items.Add(item);
+            //}
+        }
+
+        public void LoadDepartmentsToTreeView(TreeViewItem treeViewItem)
+        {
+            //    foreach (Department dept in repository.DepartmentsDb)
+            //    {
+            //        TreeViewItem item = new TreeViewItem
+            //        {
+            //            Header = $"{dept.DepartmentName}",
+            //            HorizontalAlignment = HorizontalAlignment.Left,
+            //            FontSize = 16
+            //        };
+
+            //        if (dept.ParentDepartment == (string)item.Header)
+            //            LoadDepartmentsToTreeView(item);
+
+            //        treeViewItem.Items.Add(item);
+            //    }
+        }
+
 
         #endregion Methods
+
     }
 }

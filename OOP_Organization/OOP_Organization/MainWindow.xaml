@@ -26,6 +26,7 @@
         </ListView>
 
         <StackPanel Grid.Column="0">
+            <TreeView x:Name="tvDepartments"/>
             <ComboBox x:Name="cbDepartments" Margin="10" SelectionChanged="CbDepartment_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -85,6 +86,21 @@
                 </Button>
                 <Button Grid.Column="2" HorizontalAlignment="Right" Margin="10" MinWidth="75" Cursor="Hand" Click="SortByAge" >
                     <TextBlock Text="Sort By Age" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
+                </Button>
+            </Grid>
+
+            <Grid VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" HorizontalAlignment="Left" Margin="10" MinWidth="75" MinHeight="50" Cursor="Hand" Click="SortBySalary" >
+                    <TextBlock Text="Sort By Salary" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
+                </Button>
+                <Button Grid.Column="1" HorizontalAlignment="Center" Margin="10" MinWidth="75" Cursor="Hand" Click="SortByPosition"  >
+                    <TextBlock Text="Sort By Position" TextWrapping="Wrap" FontSize="15" TextAlignment="Center"/>
                 </Button>
             </Grid>
         </StackPanel>

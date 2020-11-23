@@ -168,6 +168,34 @@ namespace OOP_Organization
             }
         }
 
+        public class SortBySalary : IComparer<Employee>
+        {
+            public int Compare(Employee x, Employee y)
+            {
+                if (x.Salary > y.Salary) return -1;
+                else if (x.Salary < y.Salary) return 1;
+                else return 0;
+            }
+        }
+
+        public class SortByPosition : IComparer<Employee>
+        {
+            public int Compare(Employee x, Employee y)
+            {
+                if (x is HeadOfOrganization) return -1;
+                else if (x is HeadOfDepartment)
+                    if (y is HeadOfOrganization) return 1;
+                    else if (y is HeadOfDepartment) return 0;
+                    else return -1;
+                else if (x is Worker)
+                    if (y is Intern) return -1;
+                    else if (y is Worker) return 0;
+                    else return 1;
+                else if (x is Intern) return 1;
+                else return 0;
+            }
+        }
+
         #endregion Interfaces
     }
 }
