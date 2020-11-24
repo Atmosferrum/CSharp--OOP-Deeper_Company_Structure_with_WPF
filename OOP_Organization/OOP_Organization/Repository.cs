@@ -4,6 +4,7 @@ using System.Xml;
 using System.Diagnostics;
 using System.Collections;
 using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace OOP_Organization
 {
@@ -18,6 +19,8 @@ namespace OOP_Organization
         public List<Employee> EmployeesDB { get; set; } //Workers Database
 
         public List<Department> DepartmentsDb { get; set; } //Departments Database
+
+        public ObservableCollection<Department> company { get; set; }
 
         #endregion Fields
 
@@ -34,6 +37,7 @@ namespace OOP_Organization
             this.mainWindow = MainWindow; //Set Reference to MainWindow
             EmployeesDB = new List<Employee>(); //Set new Employees Database
             DepartmentsDb = new List<Department>(); //Set new Departments Database
+            company = new ObservableCollection<Department>();
 
             AutoDesiarilizationXML(path);
 
@@ -106,6 +110,17 @@ namespace OOP_Organization
             dept.DepartmentName = Convert.ToString(node.Attributes.GetNamedItem("departmentName").Value);
             dept.ParentDepartment = Convert.ToString(node.Attributes.GetNamedItem("parentDepartment").Value);
             dept.Repository = this;
+
+            if (node.Attributes.GetNamedItem("parentDepartment").Value != "")
+            {
+                foreach (Department d in DepartmentsDb)
+                {
+                    if (d.DepartmentName == dept.ParentDepartment)
+                        d.innerDepartments.Add(dept);
+                }
+            }
+            else
+                company.Add(dept);
 
             DepartmentsDb.Add(dept);
         }
@@ -199,6 +214,8 @@ namespace OOP_Organization
         {
             Department department = new Department(Name, ParentName);
             DepartmentsDb.Add(department);
+            Department parent = DepartmentsDb.Find(x => x.DepartmentName == ParentName);
+            parent.innerDepartments.Add(department);
         }
 
         /// <summary>
@@ -226,11 +243,6 @@ namespace OOP_Organization
             }
 
             DepartmentsDb.Remove(departmentToRemove);
-
-            foreach (Employee e in EmployeesDB)
-            {
-                Debug.WriteLine(e.Department);
-            }
         }
 
         #endregion Methods

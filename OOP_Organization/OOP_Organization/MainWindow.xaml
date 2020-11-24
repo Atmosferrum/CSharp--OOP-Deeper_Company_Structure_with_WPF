@@ -27,7 +27,15 @@
 
         <ScrollViewer Margin="10" Padding="10">
             <StackPanel Grid.Column="0">
-                <TreeView x:Name="tvDepartments"/>
+                
+                <TreeView x:Name="tvDepartments" SelectedItemChanged="TvDepartments_SelectedItemChanged">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Path=innerDepartments}">
+                            <TextBlock Text="{Binding DepartmentName}" />
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+                
                 <ComboBox x:Name="cbDepartments" Margin="10" SelectionChanged="CbDepartment_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>

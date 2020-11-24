@@ -16,6 +16,7 @@ namespace OOP_Organization
         protected int numberOfDepartments { get; set; } //Number Of Departments in Department
         protected string parentDepartment { get; set; } //Parent Department of the Department
         protected Repository repository; //Repository with all Company DATA
+        public ObservableCollection<Department> innerDepartments { get; set; }
 
         #endregion Fields
 
@@ -34,7 +35,8 @@ namespace OOP_Organization
             this.dateOfCreation = DateTime.Now;
             this.NumberOfEmployees = 0;
             this.NumberOfDepartments = 0;
-            this.parentDepartment = ParentDepartment;        
+            this.parentDepartment = ParentDepartment;
+            innerDepartments = new ObservableCollection<Department>();
         }
 
         #endregion Constructor

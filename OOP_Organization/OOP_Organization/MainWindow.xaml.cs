@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace OOP_Organization
 {
@@ -28,8 +29,7 @@ namespace OOP_Organization
 
             LoadDpartmentsToComboBox();
 
-            LoadDepartmentsToTreeView();
-
+            LoadDepartmentsToTreeView();            
         }
 
         #endregion Constructor
@@ -39,6 +39,11 @@ namespace OOP_Organization
         private void CbDepartment_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadEmployeesToListView();
+        }
+
+        private void TvDepartments_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            cbDepartments.SelectedIndex = repository.DepartmentsDb.IndexOf((tvDepartments.SelectedItem as Department));
         }
 
         private void btnAddEmployee(object sender, RoutedEventArgs e)
@@ -104,7 +109,6 @@ namespace OOP_Organization
             LoadEmployeesToListView();
         }
 
-
         private void SortByPosition(object sender, RoutedEventArgs e)
         {
             repository.EmployeesDB.Sort(new Employee.SortByPosition());
@@ -115,7 +119,7 @@ namespace OOP_Organization
         {
             repository.EmployeesDB.Sort();
             LoadEmployeesToListView();
-        }        
+        }
 
         #endregion Elements' Methods
 
@@ -146,34 +150,12 @@ namespace OOP_Organization
 
         public void LoadDepartmentsToTreeView()
         {
-            tvDepartments.Items.Clear();
+            tvDepartments.Items.Refresh();
 
-            List<TreeViewItem> tvItems = new List<TreeViewItem>();
-
-            foreach(Department d in repository.DepartmentsDb)
-            {                
-                TreeViewItem item = new TreeViewItem
-                {
-                    Header = d.DepartmentName
-                };
-
-                tvItems.Add(item);               
-            }
-
-            foreach(Department d in repository.DepartmentsDb)
-            {
-                if (d.ParentDepartment == "")                                    
-                    tvDepartments.Items.Add(tvItems.Find(x => (string)x.Header == d.DepartmentName));                
-                else
-                {
-                    var parent = tvItems.Find(x => (string)x.Header == d.ParentDepartment);
-                    parent.Items.Add(tvItems.Find(x => (string)x.Header == d.DepartmentName));
-                }
-            }
+            tvDepartments.ItemsSource = repository.company;
 
             repository.DepartmentsDb.Sort();
         }
         #endregion Methods
-
     }
 }
