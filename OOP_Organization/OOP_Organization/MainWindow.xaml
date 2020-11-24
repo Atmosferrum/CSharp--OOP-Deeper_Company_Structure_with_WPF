@@ -8,8 +8,8 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40*"/>
-            <ColumnDefinition Width="60*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
         <ListView x:Name="lvEmployees" Margin="10" Grid.Column="1">
@@ -25,84 +25,86 @@
             </ListView.View>
         </ListView>
 
-        <StackPanel Grid.Column="0">
-            <TreeView x:Name="tvDepartments"/>
-            <ComboBox x:Name="cbDepartments" Margin="10" SelectionChanged="CbDepartment_SelectionChanged">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding DepartmentName}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+        <ScrollViewer Margin="10" Padding="10">
+            <StackPanel Grid.Column="0">
+                <TreeView x:Name="tvDepartments"/>
+                <ComboBox x:Name="cbDepartments" Margin="10" SelectionChanged="CbDepartment_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DepartmentName}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
-            <Grid VerticalAlignment="Bottom">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
+                <Grid VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" HorizontalAlignment="Left" Margin="10" MinWidth="75" MinHeight="50" Click="btnAddEmployee" Cursor="Hand">
-                    <TextBlock Text="Add Employee" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
-                </Button>
-                <Button Grid.Column="1" HorizontalAlignment="Center" Margin="10" MinWidth="75" Click="btnEditEmployee" Cursor="Hand">
-                    <TextBlock Text="Edit Employee" TextWrapping="Wrap" FontSize="15" TextAlignment="Center"/>
-                </Button>
-                <Button Grid.Column="2" HorizontalAlignment="Right" Margin="10" MinWidth="75" Click="btnRemoveEmployee" Cursor="Hand">
-                    <TextBlock Text="Remove Employee" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
-                </Button>
-            </Grid>
+                    <Button Grid.Column="0" HorizontalAlignment="Left" Margin="10" MinWidth="75" MinHeight="50" Click="btnAddEmployee" Cursor="Hand">
+                        <TextBlock Text="Add Employee" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
+                    </Button>
+                    <Button Grid.Column="1" HorizontalAlignment="Center" Margin="10" MinWidth="75" Click="btnEditEmployee" Cursor="Hand">
+                        <TextBlock Text="Edit Employee" TextWrapping="Wrap" FontSize="15" TextAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="2" HorizontalAlignment="Right" Margin="10" MinWidth="75" Click="btnRemoveEmployee" Cursor="Hand">
+                        <TextBlock Text="Remove Employee" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
+                    </Button>
+                </Grid>
 
-            <Grid VerticalAlignment="Bottom">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
+                <Grid VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" HorizontalAlignment="Left" Margin="10" MinWidth="75" MinHeight="50" Cursor="Hand" Click="btnAddDepartment">
-                    <TextBlock Text="Add Department" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
-                </Button>
-                <Button Grid.Column="1" HorizontalAlignment="Center" Margin="10" MinWidth="75" Cursor="Hand" Click="btnEditDepartment" >
-                    <TextBlock Text="Edit Department" TextWrapping="Wrap" FontSize="15" TextAlignment="Center"/>
-                </Button>
-                <Button Grid.Column="2" HorizontalAlignment="Right" Margin="10" MinWidth="75" Cursor="Hand" Click="btnRemoveDepartment" >
-                    <TextBlock Text="Remove Department" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
-                </Button>
-            </Grid>
+                    <Button Grid.Column="0" HorizontalAlignment="Left" Margin="10" MinWidth="75" MinHeight="50" Cursor="Hand" Click="btnAddDepartment">
+                        <TextBlock Text="Add Department" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
+                    </Button>
+                    <Button Grid.Column="1" HorizontalAlignment="Center" Margin="10" MinWidth="75" Cursor="Hand" Click="btnEditDepartment" >
+                        <TextBlock Text="Edit Department" TextWrapping="Wrap" FontSize="15" TextAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="2" HorizontalAlignment="Right" Margin="10" MinWidth="75" Cursor="Hand" Click="btnRemoveDepartment" >
+                        <TextBlock Text="Remove Department" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
+                    </Button>
+                </Grid>
 
-            <Grid VerticalAlignment="Bottom">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
+                <Grid VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" HorizontalAlignment="Left" Margin="10" MinWidth="75" MinHeight="50" Cursor="Hand" Click="SortByName" >
-                    <TextBlock Text="Sort By Name" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
-                </Button>
-                <Button Grid.Column="1" HorizontalAlignment="Center" Margin="10" MinWidth="75" Cursor="Hand" Click="SortByLastName"  >
-                    <TextBlock Text="Sort By Last Name" TextWrapping="Wrap" FontSize="15" TextAlignment="Center"/>
-                </Button>
-                <Button Grid.Column="2" HorizontalAlignment="Right" Margin="10" MinWidth="75" Cursor="Hand" Click="SortByAge" >
-                    <TextBlock Text="Sort By Age" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
-                </Button>
-            </Grid>
+                    <Button Grid.Column="0" HorizontalAlignment="Left" Margin="10" MinWidth="75" MinHeight="50" Cursor="Hand" Click="SortByName" >
+                        <TextBlock Text="Sort By Name" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
+                    </Button>
+                    <Button Grid.Column="1" HorizontalAlignment="Center" Margin="10" MinWidth="75" Cursor="Hand" Click="SortByLastName"  >
+                        <TextBlock Text="Sort By Last Name" TextWrapping="Wrap" FontSize="15" TextAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="2" HorizontalAlignment="Right" Margin="10" MinWidth="75" Cursor="Hand" Click="SortByAge" >
+                        <TextBlock Text="Sort By Age" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
+                    </Button>
+                </Grid>
 
-            <Grid VerticalAlignment="Bottom">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
+                <Grid VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" HorizontalAlignment="Left" Margin="10" MinWidth="75" MinHeight="50" Cursor="Hand" Click="SortBySalary" >
-                    <TextBlock Text="Sort By Salary" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
-                </Button>
-                <Button Grid.Column="1" HorizontalAlignment="Center" Margin="10" MinWidth="75" Cursor="Hand" Click="SortByPosition"  >
-                    <TextBlock Text="Sort By Position" TextWrapping="Wrap" FontSize="15" TextAlignment="Center"/>
-                </Button>
-            </Grid>
-        </StackPanel>
+                    <Button Grid.Column="0" HorizontalAlignment="Left" Margin="10" MinWidth="75" MinHeight="50" Cursor="Hand" Click="SortBySalary" >
+                        <TextBlock Text="Sort By Salary" TextWrapping="Wrap" TextAlignment="Center" FontSize="15"/>
+                    </Button>
+                    <Button Grid.Column="1" HorizontalAlignment="Center" Margin="10" MinWidth="75" Cursor="Hand" Click="SortByPosition"  >
+                        <TextBlock Text="Sort By Position" TextWrapping="Wrap" FontSize="15" TextAlignment="Center"/>
+                    </Button>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

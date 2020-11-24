@@ -146,118 +146,33 @@ namespace OOP_Organization
 
         public void LoadDepartmentsToTreeView()
         {
-            TreeViewItem item = new TreeViewItem
+            tvDepartments.Items.Clear();
+
+            List<TreeViewItem> tvItems = new List<TreeViewItem>();
+
+            foreach(Department d in repository.DepartmentsDb)
+            {                
+                TreeViewItem item = new TreeViewItem
+                {
+                    Header = d.DepartmentName
+                };
+
+                tvItems.Add(item);               
+            }
+
+            foreach(Department d in repository.DepartmentsDb)
             {
-                Header = $"Company"
-            };
+                if (d.ParentDepartment == "")                                    
+                    tvDepartments.Items.Add(tvItems.Find(x => (string)x.Header == d.DepartmentName));                
+                else
+                {
+                    var parent = tvItems.Find(x => (string)x.Header == d.ParentDepartment);
+                    parent.Items.Add(tvItems.Find(x => (string)x.Header == d.DepartmentName));
+                }
+            }
 
-            tvDepartments.Items.Add(item);
-
-            TreeViewItem item2 = new TreeViewItem
-            {
-                Header = $"Bureue"
-            };            
-
-            TreeViewItem item3 = new TreeViewItem
-            {
-                Header = $"Division"
-            };
-
-            item.Items.Add(item2);
-            item.Items.Add(item3);
-
-            TreeViewItem item4 = new TreeViewItem
-            {
-                Header = $"Division"
-            };
-
-            TreeViewItem item5 = new TreeViewItem
-            {
-                Header = $"Division"
-            };
-            TreeViewItem item8 = new TreeViewItem
-            {
-                Header = $"Division"
-            };
-            TreeViewItem item9 = new TreeViewItem
-            {
-                Header = $"Division"
-            };
-
-            item2.Items.Add(item4);
-            item2.Items.Add(item5);
-            item2.Items.Add(item8);
-            item2.Items.Add(item9);
-
-            TreeViewItem item6 = new TreeViewItem
-            {
-                Header = $"Division"
-            };
-
-            TreeViewItem item7 = new TreeViewItem
-            {
-                Header = $"Division"
-            };
-            TreeViewItem item10 = new TreeViewItem
-            {
-                Header = $"Division"
-            };
-            TreeViewItem item11 = new TreeViewItem
-            {
-                Header = $"Division"
-            };
-            TreeViewItem item12 = new TreeViewItem
-            {
-                Header = $"Division"
-            };
-
-            item3.Items.Add(item6);
-            item3.Items.Add(item7);
-            item3.Items.Add(item10);
-            item3.Items.Add(item11);
-            item3.Items.Add(item12);
-
-
-
-            //foreach (Department dept in repository.DepartmentsDb)
-            //{
-            //    TreeViewItem item = new TreeViewItem();
-
-            //    if(dept.ParentDepartment == "")
-            //    {
-            //        item = new TreeViewItem
-            //        {
-            //            Header = $"{dept.DepartmentName}",
-            //            HorizontalAlignment = HorizontalAlignment.Left,
-            //            FontSize = 16
-            //        };
-            //    }
-            //    else if (dept.ParentDepartment != "")
-            //        LoadDepartmentsToTreeView(item);
-
-            //    tvDepartments.Items.Add(item);
-            //}
+            repository.DepartmentsDb.Sort();
         }
-
-        public void LoadDepartmentsToTreeView(TreeViewItem treeViewItem)
-        {
-            //    foreach (Department dept in repository.DepartmentsDb)
-            //    {
-            //        TreeViewItem item = new TreeViewItem
-            //        {
-            //            Header = $"{dept.DepartmentName}",
-            //            HorizontalAlignment = HorizontalAlignment.Left,
-            //            FontSize = 16
-            //        };
-
-            //        if (dept.ParentDepartment == (string)item.Header)
-            //            LoadDepartmentsToTreeView(item);
-
-            //        treeViewItem.Items.Add(item);
-            //    }
-        }
-
-
         #endregion Methods
 
     }

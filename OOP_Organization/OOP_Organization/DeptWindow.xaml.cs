@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 
 namespace OOP_Organization
@@ -12,6 +14,8 @@ namespace OOP_Organization
         MainWindow mainWindow; //MainWindow reference
 
         Department department; //Temporarily Department (with Data gotten from TextBoxes)
+
+        private List<string> parent = new List<string>() { "Company", "Bureau", "Division"}; //Department status to SELECT
 
         /// <summary>
         /// Bool to CHECK if Input Data is Correct
@@ -62,6 +66,17 @@ namespace OOP_Organization
             cbAddParentDepartment.ItemsSource = repository.DepartmentsDb.Where(ExcludeSelf);
             cbAddParentDepartment.SelectedIndex = repository.DepartmentsDb.FindIndex(GetParent);
 
+            if (department.DepartmentName == "Normandy")
+            {
+                cbAddParentDepartment.Visibility = Visibility.Hidden;
+                tbAddParentDepartment.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                cbAddParentDepartment.Visibility = Visibility.Visible;
+                tbAddParentDepartment.Visibility = Visibility.Visible;
+            }
+
 
             btnAddDepartment.Visibility = Visibility.Hidden;
         }
@@ -74,6 +89,15 @@ namespace OOP_Organization
         private bool GetParent(Department args)
         {
             return args.ParentDepartment == department.ParentDepartment;
+        }
+
+        /// <summary>
+        /// Method to GET correct Index to Emplouee Position
+        /// </summary>
+        /// <returns></returns>
+        private int GetParentIndexFromComboBox()
+        {
+            return parent.IndexOf(cbAddParentDepartment.Text);
         }
 
         #endregion Constructor
@@ -89,7 +113,8 @@ namespace OOP_Organization
         {
             if (inputDataIsCorrect)
             {
-                repository.AddDepartment(tbAddName.Text, cbAddParentDepartment.Text);
+                repository.AddDepartment(tbAddName.Text, 
+                                        (cbAddParentDepartment.SelectedItem as Department).DepartmentName);
                 CloseWindow();
             }
             else
@@ -105,22 +130,48 @@ namespace OOP_Organization
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void BtnEditDepartment(object sender, RoutedEventArgs e)
-        {
+        {       
             if (inputDataIsCorrect)
             {
                 var newDepartmentData = new Department(tbAddName.Text,
-                                                   cbAddParentDepartment.Text);
+                                                      (cbAddParentDepartment.SelectedItem as Department).DepartmentName);
+
+                switch (GetParentIndexFromComboBox())
+                {
+                    case 0: newDepartmentData = new Bureau(); break;
+                    default: newDepartmentData = new Division(); break;
+                }
+
+                DefineDepartmentClass(newDepartmentData);
+
+                foreach(Department d in repository.DepartmentsDb)
+                {
+                    if(d.ParentDepartment == department.DepartmentName)
+                    {
+                        d.ParentDepartment = tbAddName.Text;
+                    }
+                }
 
                 repository[department.DepartmentName,
-                            department.ParentDepartment] = newDepartmentData;
+                           department.ParentDepartment] = newDepartmentData;
 
                 CloseWindow();
             }
-        } 
+        }
 
         #endregion Elements' Methods
 
         #region Methods;
+
+        /// <summary>
+        /// Method to DEFINE Department Class
+        /// </summary>
+        /// <param name="dept"></param>
+        private void DefineDepartmentClass(Department dept)
+        {
+            dept.DepartmentName = tbAddName.Text;
+            dept.ParentDepartment = (cbAddParentDepartment.SelectedItem as Department).DepartmentName;
+        }
 
         /// <summary>
         /// Method to CLOSE this Window
@@ -129,6 +180,7 @@ namespace OOP_Organization
         {
             mainWindow.LoadEmployeesToListView();
             mainWindow.LoadDpartmentsToComboBox();
+            mainWindow.LoadDepartmentsToTreeView();
             this.Close();
         } 
 

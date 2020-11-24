@@ -93,9 +93,7 @@ namespace OOP_Organization
 
             if (xNode.HasChildNodes)
                 foreach (XmlNode x in xNode.ChildNodes)
-                    XMLNodesDesiarilization(x);
-
-            DepartmentsDb.Sort();
+                    XMLNodesDesiarilization(x);     
         }
 
         /// <summary>

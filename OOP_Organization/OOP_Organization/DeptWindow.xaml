@@ -21,7 +21,7 @@
         <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextAlignment="Center" Grid.RowSpan="2" Height="160" VerticalAlignment="Top" >Add department name :</TextBlock>
         <TextBox x:Name="tbAddName" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"  Margin="10"/>
         
-        <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextAlignment="Center">Select parent department :</TextBlock>
+        <TextBlock x:Name="tbAddParentDepartment" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" TextWrapping="Wrap" TextAlignment="Center">Select parent department :</TextBlock>
         <ComboBox x:Name="cbAddParentDepartment" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
