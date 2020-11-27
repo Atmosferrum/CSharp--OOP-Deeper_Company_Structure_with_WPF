@@ -168,6 +168,9 @@ namespace OOP_Organization
             }
         }
 
+        /// <summary>
+        /// Class to .Sort by Salary
+        /// </summary>
         public class SortBySalary : IComparer<Employee>
         {
             public int Compare(Employee x, Employee y)
@@ -178,6 +181,9 @@ namespace OOP_Organization
             }
         }
 
+        /// <summary>
+        /// Class to .Sort by Position  
+        /// </summary>
         public class SortByPosition : IComparer<Employee>
         {
             public int Compare(Employee x, Employee y)

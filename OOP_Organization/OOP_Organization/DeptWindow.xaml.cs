@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 
@@ -16,6 +15,8 @@ namespace OOP_Organization
         Department department; //Temporarily Department (with Data gotten from TextBoxes)
 
         private List<string> parent = new List<string>() { "Company", "Bureau", "Division"}; //Department status to SELECT
+
+        private string parentName;
 
         /// <summary>
         /// Bool to CHECK if Input Data is Correct
@@ -64,9 +65,9 @@ namespace OOP_Organization
 
             cbAddParentDepartment.ItemsSource = repository.DepartmentsDb;
             cbAddParentDepartment.ItemsSource = repository.DepartmentsDb.Where(ExcludeSelf);
-            cbAddParentDepartment.SelectedIndex = repository.DepartmentsDb.FindIndex(GetParent);
+            cbAddParentDepartment.SelectedItem = repository.DepartmentsDb.Find(x => x.DepartmentName == department.ParentDepartment);
 
-            if (department.DepartmentName == "Normandy")
+            if (department.DepartmentName == repository.DepartmentsDb.Find(x => x is Company).DepartmentName)
             {
                 cbAddParentDepartment.Visibility = Visibility.Hidden;
                 tbAddParentDepartment.Visibility = Visibility.Hidden;
@@ -81,23 +82,55 @@ namespace OOP_Organization
             btnAddDepartment.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Bool to EXCLUDE chosen Department from Combo Box
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool ExcludeSelf(Department arg)
         {
-            return arg.DepartmentName != department.DepartmentName;
-        }
-
-        private bool GetParent(Department args)
-        {
-            return args.ParentDepartment == department.ParentDepartment;
+            return arg.DepartmentName != department.DepartmentName
+                && arg.ParentDepartment != department.DepartmentName
+                && GetChildren(arg);
         }
 
         /// <summary>
-        /// Method to GET correct Index to Emplouee Position
+        /// Exclude CHILDREN Departments
+        /// </summary>
+        /// <param name="dept"></param>
+        /// <returns></returns>
+        private bool GetChildren(Department dept)
+        {
+            Department tempParent = repository.DepartmentsDb.Find(x => x.DepartmentName == dept.ParentDepartment);
+
+            if (tempParent != null)
+            {
+                if (tempParent.ParentDepartment != department.DepartmentName)
+                {
+                    return GetChildren(tempParent);
+                }
+                else if (tempParent.ParentDepartment == department.DepartmentName)
+                    return false;
+                else return true;
+            }
+            else return true;
+        }
+
+
+        /// <summary>
+        /// Method to GET correct Index to Employee Position
         /// </summary>
         /// <returns></returns>
         private int GetParentIndexFromComboBox()
         {
-            return parent.IndexOf(cbAddParentDepartment.Text);
+            if (cbAddParentDepartment.SelectedIndex > -1)
+            {
+                var tempDept = repository.DepartmentsDb.Find(x => x.DepartmentName == (cbAddParentDepartment.SelectedItem as Department).DepartmentName);
+                if (tempDept is Company)
+                    return 1;
+                else return 2;
+            }
+            else return 0;            
         }
 
         #endregion Constructor
@@ -133,12 +166,19 @@ namespace OOP_Organization
         {       
             if (inputDataIsCorrect)
             {
+                if (department.DepartmentName != repository.DepartmentsDb.Find(x => x is Company).DepartmentName)
+                {
+                    parentName = (cbAddParentDepartment.SelectedItem as Department).DepartmentName;
+                }
+                else parentName = "";                
+
                 var newDepartmentData = new Department(tbAddName.Text,
-                                                      (cbAddParentDepartment.SelectedItem as Department).DepartmentName);
+                                                      parentName);
 
                 switch (GetParentIndexFromComboBox())
                 {
-                    case 0: newDepartmentData = new Bureau(); break;
+                    case 0: newDepartmentData = new Company(); break;
+                    case 1: newDepartmentData = new Bureau(); break;
                     default: newDepartmentData = new Division(); break;
                 }
 
@@ -148,14 +188,51 @@ namespace OOP_Organization
                 {
                     if(d.ParentDepartment == department.DepartmentName)
                     {
-                        d.ParentDepartment = tbAddName.Text;
+                        d.ParentDepartment = tbAddName.Text;                        
                     }
                 }
 
                 repository[department.DepartmentName,
-                           department.ParentDepartment] = newDepartmentData;
+                          department.ParentDepartment] = newDepartmentData;
+
+                repository.DepartmentsDb.Sort(new Department.SortByPosition());
+
+                foreach(Department d in repository.DepartmentsDb)
+                    d.innerDepartments.Clear();
+
+                repository.company.Clear();
+
+                foreach (Department d in repository.DepartmentsDb)
+                {
+                    if (d.ParentDepartment != "")
+                    {
+                        var newParent = repository.DepartmentsDb.Find(x => x.DepartmentName == d.ParentDepartment);
+                        newParent.innerDepartments.Add(d);
+                    }
+                    else
+                        repository.company.Add(d);
+                }
 
                 CloseWindow();
+            }
+        }
+
+        /// <summary>
+        /// Method to CHECK for children to Move
+        /// </summary>
+        /// <param name="dept"></param>
+        void CheckNextChild(Department dept)
+        {
+            foreach (Department d in dept.innerDepartments)
+            {
+                if (dept.DepartmentName != department.DepartmentName)
+                    CheckNextChild(d);
+                else
+                {
+                    dept.DepartmentName = tbAddName.Text;
+                    foreach (Department childDept in dept.innerDepartments)
+                        childDept.ParentDepartment = tbAddName.Text;                    
+                }                    
             }
         }
 
@@ -170,7 +247,7 @@ namespace OOP_Organization
         private void DefineDepartmentClass(Department dept)
         {
             dept.DepartmentName = tbAddName.Text;
-            dept.ParentDepartment = (cbAddParentDepartment.SelectedItem as Department).DepartmentName;
+            dept.ParentDepartment = parentName;
         }
 
         /// <summary>

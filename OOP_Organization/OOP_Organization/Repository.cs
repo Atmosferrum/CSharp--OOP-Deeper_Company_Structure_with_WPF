@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-using System.Diagnostics;
 using System.Collections;
 using System.Linq;
 using System.Collections.ObjectModel;
@@ -20,7 +19,7 @@ namespace OOP_Organization
 
         public List<Department> DepartmentsDb { get; set; } //Departments Database
 
-        public ObservableCollection<Department> company { get; set; }
+        public ObservableCollection<Department> company { get; set; } //Departments collection for Tree View
 
         #endregion Fields
 
@@ -97,7 +96,7 @@ namespace OOP_Organization
 
             if (xNode.HasChildNodes)
                 foreach (XmlNode x in xNode.ChildNodes)
-                    XMLNodesDesiarilization(x);     
+                    XMLNodesDesiarilization(x);
         }
 
         /// <summary>
@@ -154,7 +153,8 @@ namespace OOP_Organization
                     head.Salary = 0;
 
                     foreach (Employee e in EmployeesDB)
-                        if (e.Department == head.Department && !(e is HeadOfOrganization) && e != head) head.Salary += (int)(e.Salary * 0.5f);
+                        //if (e.Department == head.Department && !(e is HeadOfOrganization) && e != head && !(e is HeadOfDepartment)) head.Salary += (int)(e.Salary * 0.5f);
+                        if ((e is Intern) || (e is Worker)) head.Salary += (int)(e.Salary * 0.5f);
 
                     if (head.Salary < 1300) head.Salary = 1300;
                 }
@@ -185,10 +185,10 @@ namespace OOP_Organization
 
             switch (employeeClass)
             {
-                case 0: employee = new HeadOfOrganization(Name, LastName, Age, Department, 0); break;
-                case 1: employee = new HeadOfDepartment(Name, LastName, Age, Department, 0); break;
-                case 2: employee = new Worker(Name, LastName, Age, Department, 0); break;
-                case 3: employee = new Intern(Name, LastName, Age, Department, 0); break;                
+                case 0: employee = new Intern(Name, LastName, Age, Department, 0); break;
+                case 1: employee = new Worker(Name, LastName, Age, Department, 0); break;
+                case 2: employee = new HeadOfDepartment(Name, LastName, Age, Department, 0); break;
+                case 3: employee = new HeadOfOrganization(Name, LastName, Age, Department, 0); break;
                 default: employee = new Employee(Name, LastName, Age, Department, 0); break;
             }
 
@@ -224,9 +224,38 @@ namespace OOP_Organization
         /// <param name="department">Department to Remove</param>
         public void RemoveDepartment(Department department)
         {
-            EmployeesDB = EmployeesDB.Where(x => x.Department != department.DepartmentName).ToList();
+            Department parent = DepartmentsDb.Find(x => x.DepartmentName == department.ParentDepartment);
 
-            DepartmentsDb.Remove(department);
+            if (parent != null)
+                parent.innerDepartments.Remove(department);
+            else
+                company.Clear();
+
+            if (department.DepartmentName != DepartmentsDb.Find(x => x is Company).DepartmentName)
+            {
+                RemoveChildren(department);
+                DepartmentsDb.Remove(department);
+            }
+            else
+                DepartmentsDb.Clear();
+
+            EmployeesDB = EmployeesDB.Where(x => x.Department != department.DepartmentName).ToList();
+        }
+
+        /// <summary>
+        /// Method to REMOVE Children from removed Department
+        /// </summary>
+        /// <param name="parent">Department to Remove</param>
+        void RemoveChildren(Department parent)
+        {
+            for (int i = 0; i < DepartmentsDb.Count; i++)
+            {
+                if (DepartmentsDb[i].ParentDepartment == parent.DepartmentName)
+                {
+                    RemoveChildren(DepartmentsDb[i]);
+                    DepartmentsDb.Remove(DepartmentsDb[i]);                    
+                }
+            }
         }
 
         /// <summary>
@@ -236,13 +265,46 @@ namespace OOP_Organization
         /// <param name="departmentToAddEmployees">Department in witch MOVE</param>
         public void RemoveDepartment(Department departmentToRemove, Department departmentToAddEmployees)
         {
+            Department parent = DepartmentsDb.Find(x => x.DepartmentName == departmentToRemove.ParentDepartment);
+
+            if (parent != null)
+                parent.innerDepartments.Remove(departmentToRemove);
+            else
+                company.Clear();
+
             foreach (Employee e in EmployeesDB)
             {
                 if (e.Department == departmentToRemove.DepartmentName)
                     e.Department = departmentToAddEmployees.DepartmentName;
             }
 
+            MoveChildren(departmentToRemove, departmentToAddEmployees);
+
+            RemoveChildren(departmentToRemove);
+
             DepartmentsDb.Remove(departmentToRemove);
+        }
+
+        /// <summary>
+        ///// Method to MOVE all Employees from removed Department to another
+        /// </summary>
+        /// <param name="departmentToRemove"></param>
+        /// <param name="departmentToAddEmployees"></param>
+        void MoveChildren(Department departmentToRemove, Department departmentToAddEmployees)
+        {
+            for (int i = 0; i < DepartmentsDb.Count; i++)
+            {
+                if (DepartmentsDb[i].ParentDepartment == departmentToRemove.DepartmentName)
+                {
+                    MoveChildren(DepartmentsDb[i], departmentToAddEmployees);
+
+                    foreach (Employee e in EmployeesDB)
+                    {
+                        if (e.Department == DepartmentsDb[i].DepartmentName)
+                            e.Department = departmentToAddEmployees.DepartmentName;
+                    }
+                }
+            }
         }
 
         #endregion Methods

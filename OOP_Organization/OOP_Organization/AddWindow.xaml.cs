@@ -17,11 +17,11 @@ namespace OOP_Organization
 
         private int age; //Number to OUT from TryParse Employee Age checker
 
-        private List<string> position = new List<string>() { "Head Of Organization", "Head Of Department", "Worker", "Intern" }; //Employee Position to SELECT
+        private List<string> position = new List<string>() { "Intern", "Worker", "Head Of Department",  "Head Of Organization" }; //Employee Position to SELECT
 
         private List<string> tempPosition = new List<string>(); //Temporary List for Employee Position
 
-        private bool exclude => (cbAddEmployeeDepartment.SelectedItem as Department)?.DepartmentName != "Normandy"; //Bool to CHECK the Head Of Organization exclusion
+        private bool exclude => (cbAddEmployeeDepartment.SelectedItem as Department)?.DepartmentName != repository.DepartmentsDb.Find(x => x is Company).DepartmentName; //Bool to CHECK the Head Of Organization exclusion
 
         /// <summary>
         /// Bool to CHECK if Input Data is correct
@@ -115,7 +115,7 @@ namespace OOP_Organization
         /// <returns></returns>
         private int GetPositionIndex()
         {
-            if (employee.Department == "Normandy")
+            if (employee.Department == repository.DepartmentsDb.Find(x => x is Company).DepartmentName)
                 return position.IndexOf(employee.Position);
             else
                 return tempPosition.IndexOf(employee.Position);
@@ -137,7 +137,7 @@ namespace OOP_Organization
         /// <returns></returns>
         private bool ExcludeSelf(string args)
         {
-            return !args.Equals(position[0]);
+            return !args.Equals(position[3]);
         }
 
         #endregion Constructor

@@ -16,7 +16,7 @@ namespace OOP_Organization
         /// <summary>
         /// Bool to CHECK if Input Data is Correct
         /// </summary>
-        bool inputDataIsCorrect => cbAddNewDepartmentForEmployees.SelectedIndex > -1; 
+        bool inputDataIsCorrect => cbAddNewDepartmentForEmployees.SelectedIndex > -1;
 
         #endregion Fields
 
@@ -49,7 +49,31 @@ namespace OOP_Organization
         /// <returns></returns>
         private bool ExcludeSelf(Department arg)
         {
-            return arg.DepartmentName != department.DepartmentName;
+            return arg.DepartmentName != department.DepartmentName
+                && arg.ParentDepartment != department.DepartmentName
+                && GetChildren(arg);
+        }
+
+        /// <summary>
+        /// Exclude CHILDREN Departments
+        /// </summary>
+        /// <param name="dept"></param>
+        /// <returns></returns>
+        private bool GetChildren(Department dept)
+        {
+            Department tempParent = repository.DepartmentsDb.Find(x => x.DepartmentName == dept.ParentDepartment);
+
+            if (tempParent != null)
+            {
+                if (tempParent.ParentDepartment != department.DepartmentName)
+                {
+                    return GetChildren(tempParent);
+                }
+                else if (tempParent.ParentDepartment == department.DepartmentName)
+                    return false;
+                else return true;
+            }
+            else return true;                
         }
 
         #endregion Constructor
@@ -98,7 +122,7 @@ namespace OOP_Organization
             mainWindow.LoadDpartmentsToComboBox();
             mainWindow.LoadEmployeesToListView();
             this.Close();
-        } 
+        }
 
         #endregion Methods
     }

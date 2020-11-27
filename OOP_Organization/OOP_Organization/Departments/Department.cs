@@ -39,8 +39,13 @@ namespace OOP_Organization
             innerDepartments = new ObservableCollection<Department>();
         }
 
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        public Department() : this("", "") { }
+
         #endregion Constructor
-           
+
         #region Properties;
 
         private static int NextID()
@@ -116,6 +121,26 @@ namespace OOP_Organization
             return String.Compare(this.DepartmentName, other.DepartmentName);
         }
 
+        /// <summary>
+        /// Class to .Sort by Position
+        /// </summary>
+        public class SortByPosition : IComparer<Department>
+        {
+            public int Compare(Department x, Department y)
+            {
+
+                if (x is Company) return -1;
+                else if (x is Bureau)
+                    if (y is Company) return 1;
+                    else if (y is Bureau) return 0;
+                    else return -1;
+                else if (x is Division)
+                    if (y is Company) return 1;
+                    else if (y is Bureau) return 1;
+                    else return 0;
+                else return 0;
+            }
+        }
         #endregion Interfaces
     }
 }
